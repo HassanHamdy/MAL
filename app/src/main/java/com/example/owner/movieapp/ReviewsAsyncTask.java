@@ -2,6 +2,7 @@ package com.example.owner.movieapp;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,27 +19,23 @@ import java.net.URL;
 import java.util.ArrayList;
 
 
-public class Async extends AsyncTask<String, String, ArrayList<Movie>> {
+public class ReviewsAsyncTask extends AsyncTask<String, String, ArrayList<Reviews>> {
 
     public interface onResponse {
-        public void onSuccess(ArrayList<Movie> data);
+        public void onSuccess(ArrayList<Reviews> data);
     }
 
-    onResponse listen;
+    ReviewsAsyncTask.onResponse listen;
     private Context context;
-    ArrayList<Movie> Data = new ArrayList<Movie>();
+    ArrayList<Reviews> Data = new ArrayList<Reviews>();
 
-    public Async(Context c, onResponse listener) {
+    public ReviewsAsyncTask(Context c, ReviewsAsyncTask.onResponse listener) {
         context = c;
         this.listen = listener;
     }
 
-    public Async(Context c, int identifier) {
-        context = c;
-    }
-
     @Override
-    protected ArrayList<Movie> doInBackground(String... params) {
+    protected ArrayList<Reviews> doInBackground(String... params) {
         String Jsonstr = "";
 
         try {
@@ -64,16 +61,9 @@ public class Async extends AsyncTask<String, String, ArrayList<Movie>> {
                 JSONArray JsonArr = JsonRootObject.getJSONArray("results");
                 for (int i = 0; i < JsonArr.length(); i++) {
                     JSONObject JSONobject = JsonArr.getJSONObject(i);
-                    String imgPath = JSONobject.getString("poster_path");
-                    imgPath = "https://image.tmdb.org/t/p/w780" + imgPath;
-                    String BackimgPath = JSONobject.getString("backdrop_path");
-                    BackimgPath = "https://image.tmdb.org/t/p/w780" + BackimgPath;
-                    String description = JSONobject.getString("overview");
-                    String Title = JSONobject.getString("title");
-                    Double rate = JSONobject.getDouble("vote_average");
-                    String Date = JSONobject.getString("release_date");
-                    int id = JSONobject.getInt("id");
-                    Data.add(new Movie(imgPath, description, Title, rate, Date, BackimgPath, id));
+                    String au_name = JSONobject.getString("author");
+                    String content = JSONobject.getString("content");
+                    Data.add(new Reviews(au_name, content));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -91,8 +81,7 @@ public class Async extends AsyncTask<String, String, ArrayList<Movie>> {
 
 
     @Override
-    protected void onPostExecute(final ArrayList<Movie> movies) {
-        listen.onSuccess(movies);
+    protected void onPostExecute(final ArrayList<Reviews> reviews) {
+        listen.onSuccess(reviews);
     }
-
 }

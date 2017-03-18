@@ -4,12 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
+    android:baselineAligned="false"
     tools:context="com.example.owner.movieapp.MainActivity">
 
     <FrameLayout
         android:id="@+id/aContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
     </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/dContainer"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2">
+
+    </FrameLayout>
+
 </LinearLayout>

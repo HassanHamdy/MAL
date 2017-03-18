@@ -6,19 +6,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 
-
-public class AdapterClass extends ArrayAdapter {
+public class ReviewAdapter extends ArrayAdapter {
 
     private Context context;
-    public ArrayList<Movie> Data;
+    public ArrayList<Reviews> Data;
 
-    public AdapterClass(Context c, ArrayList<Movie> data) {
+    public ReviewAdapter(Context c, ArrayList<Reviews> data) {
         super(c, -1, data);
         context = c;
         Data = data;
@@ -48,9 +47,11 @@ public class AdapterClass extends ArrayAdapter {
         View rowView = convertView;
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            rowView = inflater.inflate(R.layout.gridviewitem, parent, false);
+            rowView = inflater.inflate(R.layout.review_items, parent, false);
             viewHolder = new viewHolderItem();
-            viewHolder.imageView = (ImageView) rowView.findViewById(R.id.imageView);
+            viewHolder.imageView = (ImageView) rowView.findViewById(R.id.ownerImage);
+            viewHolder.OW_NameTextView = (TextView) rowView.findViewById(R.id.name);
+            viewHolder.contentTextView = (TextView) rowView.findViewById(R.id.review);
             // store the holder with the view.
             rowView.setTag(viewHolder);
 
@@ -58,15 +59,18 @@ public class AdapterClass extends ArrayAdapter {
             viewHolder = (viewHolderItem) convertView.getTag();
         }
 
-        Picasso.with(context).load(Data.get(position).getImage()).into(viewHolder.imageView);
-        rowView.setTag(viewHolder);
+        viewHolder.imageView.setImageResource(Data.get(position).getImgID());
+        viewHolder.OW_NameTextView.setText(Data.get(position).getAuthor_Name());
+        viewHolder.contentTextView.setText(Data.get(position).getContent());
+
+
         return rowView;
 
     }
 
     private class viewHolderItem {
         ImageView imageView;
+        TextView OW_NameTextView;
+        TextView contentTextView;
     }
-
-
 }

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView android:id="@+id/scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="140dp"
+            android:layout_height="225dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop" />
+
+        <RatingBar
+            android:id="@+id/rating_bar"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="50dp"
+            android:layout_toRightOf="@id/imageView"
+            android:numStars="10"
+            android:stepSize="0.1" />
+
+        <TextView
+            android:id="@+id/textView_ReleaseDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rating_bar"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@id/imageView"
+            android:textColor="#696969"
+            android:textSize="20sp" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView_ReleaseDate"
+            android:layout_toRightOf="@id/imageView"
+            android:layout_margin="16dp"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabRemove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="60dp"
+            android:src="@drawable/cross"
+            android:layout_below="@id/textView_ReleaseDate"
+            android:layout_toRightOf="@id/fabAdd"
+            android:layout_margin="16dp" />
+
+
+        <TextView
+            android:id="@+id/textView_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imageView"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="10dp"
+            android:textColor="#000"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/yt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView_description"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Trailer"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="30dp" />
+
+        <ListView
+            android:id="@+id/listYT"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/yt"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:id="@+id/rev"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/listYT"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Reviews"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="30dp" />
+
+        <ListView
+            android:id="@+id/listreview"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_below="@id/rev"
+            android:layout_marginTop="20dp">
+
+        </ListView>
+    </RelativeLayout>
+
+</android.support.v4.widget.NestedScrollView>
+
+

@@ -1,14 +1,11 @@
 package com.example.owner.movieapp;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
+import android.view.Window;
 
-/**
- * Created by Owner on 11-Oct-16.
- */
 
 public class Detail_view extends AppCompatActivity {
 
@@ -16,18 +13,13 @@ public class Detail_view extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.details);
 
-        Movie data = (Movie) getIntent().getSerializableExtra("data");
+        Detail_view_Fragment dFr = new Detail_view_Fragment();
+        FragmentManager Dfm = getFragmentManager();
+        FragmentTransaction fragmentTransaction = Dfm.beginTransaction();
+        fragmentTransaction.add(R.id.dContainer, dFr, "Detail");
+        fragmentTransaction.commit();
 
-        TextView title = (TextView) findViewById(R.id.textView_title);
-        title.setText(data.getTitle());
-
-        ImageView image = (ImageView) findViewById(R.id.imageView);
-        image.setImageResource(data.getImage());
-
-        RatingBar Rate = (RatingBar) findViewById(R.id.rating_bar);
-        Rate.setRating((float) data.getRate());
-
-        TextView description = (TextView) findViewById(R.id.textView_description);
-        description.setText(data.getDescription());
     }
+
 }
+

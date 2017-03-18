@@ -1,93 +1,65 @@
 package com.example.owner.movieapp;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
-
-import com.squareup.picasso.Picasso;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import static android.R.attr.data;
+import android.view.Window;
+import android.widget.Toast;
 
 
-public class MainActivity extends AppCompatActivity {
-
-    ArrayList<Movie> Data;
+public class MainActivity extends AppCompatActivity implements Listener {
+    boolean mIsTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_main);
 
-        Data = new ArrayList<Movie>();
-        Data.add(new Movie(R.drawable.koala, "koala", "koala", 2.5));
-        Data.add(new Movie(R.drawable.koala, "koala", "koala", 3));
-        Data.add(new Movie(R.drawable.koala, "koala", "koala", 3));
-        Data.add(new Movie(R.drawable.koala, "koala", "koala", 4));
-        Data.add(new Movie(R.drawable.koala, "koala", "koala", 5));
 
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
 
-        /*String JSONstr = "{\"info\":[{\"id\" : \" 1 \" , \"name\" : \" Desert sand\" , \"Description\" : \"Desert\" , \"rate\" : 1  }, " +
-                "{\"id\" : \" 2 \" , \"name\" : \" hydrangeas\" , \"Description\" : \"hydrangeas\" , \"rate\" : 1.5  } ," +
-                " {\"id\" : \" 3 \" , \"name\" : \" jellyfish\" , \"Description\" : \"jellyfish\" , \"rate\" : 2  }]}";
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 
-        try {
-            JSONObject RootObject = new JSONObject(JSONstr);
-            JSONArray JSONarr = RootObject.getJSONArray("info");
-            for(int i = 0; i < JSONarr.length(); i++) {
-                JSONObject JSONobject = JSONarr.getJSONObject(i);
-                int id = Integer.parseInt(JSONobject.getString("id"));
-                switch (id){
-                    case 1:
-                        id = R.drawable.desert;
-                        break;
-                    case 2:
-                        id = R.drawable.hydrangeas;
-                        break;
-                    case 3:
-                        id = R.drawable.jellyfish;
-                        break;
-                }
-                Log.d("Hassan",String.valueOf(id));
-                String name = JSONobject.getString("name");
-                String Description = JSONobject.getString("Description");
-                double rate = JSONobject.getDouble("rate");
-                Data.add(new Movie(id,name,Description,rate));
+        if (activeNetwork != null && activeNetwork.isConnected()) {
+            mIsTwoPane = false;
+
+            //check if 2 pane
+            if (null != findViewById(R.id.dContainer)) {
+                mIsTwoPane = true;
+
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }*/
-        /*Movie[] data = {
-                new Movie(R.drawable.koala, "koala", "koala", 2.5),
-                new Movie(R.drawable.koala, "koala", "koala", 3),
-                new Movie(R.drawable.koala, "koala", "koala", 3),
-                new Movie(R.drawable.koala, "koala", "koala", 4),
-                new Movie(R.drawable.koala, "koala", "koala", 5)
-        };*/
 
-        try {
-            String myUrl = "";
-            new Async().execute(myUrl);
-        }catch (Exception ex){}
+            MainActivityFragment mFr = new MainActivityFragment();
+            FragmentManager mFm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = mFm.beginTransaction();
+            fragmentTransaction.replace(R.id.aContainer, mFr, "Main");
+            mFr.setmListener(this);
+            fragmentTransaction.commit();
+        } else {
+            Toast.makeText(this, "No Internet Connection\ncheck your connection", Toast.LENGTH_SHORT).show();
+        }
+    }
 
-        GridView gridView = (GridView) findViewById(R.id.Grid_View);
-        gridView.setAdapter(new AdapterClass(this,Data));
-
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-                startActivity(new Intent(MainActivity.this, Detail_view.class).putExtra("data", Data.get(position)));
-            }
-        });
+    @Override
+    public void setSelectedItem(Movie Data) {
+        if (mIsTwoPane == false || getResources().getConfiguration().orientation != 2) {
+            startActivity(new Intent(this, Detail_view.class).putExtra("data", Data));
+        } else {
+            Detail_Fragment dFr = new Detail_Fragment();
+            Bundle extras = new Bundle();
+            extras.putSerializable("data", Data);
+            dFr.setArguments(extras);
+            FragmentManager dFm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = dFm.beginTransaction();
+            fragmentTransaction.replace(R.id.dContainer, dFr, "Detail");
+            fragmentTransaction.commit();
+        }
     }
 }

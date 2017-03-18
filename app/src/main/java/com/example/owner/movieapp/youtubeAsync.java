@@ -2,6 +2,7 @@ package com.example.owner.movieapp;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,27 +19,24 @@ import java.net.URL;
 import java.util.ArrayList;
 
 
-public class Async extends AsyncTask<String, String, ArrayList<Movie>> {
+public class youtubeAsync extends AsyncTask<String, String, ArrayList<String>> {
 
     public interface onResponse {
-        public void onSuccess(ArrayList<Movie> data);
+        public void onSuccess(ArrayList<String> data);
     }
 
-    onResponse listen;
+    youtubeAsync.onResponse listen;
     private Context context;
-    ArrayList<Movie> Data = new ArrayList<Movie>();
+    ArrayList<String> Data = new ArrayList<String>();
+    int identify_Json;
 
-    public Async(Context c, onResponse listener) {
+    public youtubeAsync(Context c, youtubeAsync.onResponse listener) {
         context = c;
         this.listen = listener;
     }
 
-    public Async(Context c, int identifier) {
-        context = c;
-    }
-
     @Override
-    protected ArrayList<Movie> doInBackground(String... params) {
+    protected ArrayList<String> doInBackground(String... params) {
         String Jsonstr = "";
 
         try {
@@ -64,16 +62,9 @@ public class Async extends AsyncTask<String, String, ArrayList<Movie>> {
                 JSONArray JsonArr = JsonRootObject.getJSONArray("results");
                 for (int i = 0; i < JsonArr.length(); i++) {
                     JSONObject JSONobject = JsonArr.getJSONObject(i);
-                    String imgPath = JSONobject.getString("poster_path");
-                    imgPath = "https://image.tmdb.org/t/p/w780" + imgPath;
-                    String BackimgPath = JSONobject.getString("backdrop_path");
-                    BackimgPath = "https://image.tmdb.org/t/p/w780" + BackimgPath;
-                    String description = JSONobject.getString("overview");
-                    String Title = JSONobject.getString("title");
-                    Double rate = JSONobject.getDouble("vote_average");
-                    String Date = JSONobject.getString("release_date");
-                    int id = JSONobject.getInt("id");
-                    Data.add(new Movie(imgPath, description, Title, rate, Date, BackimgPath, id));
+                    String Key = JSONobject.getString("key");
+                    Data.add("https://www.youtube.com/watch?v=" + Key);
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -89,10 +80,8 @@ public class Async extends AsyncTask<String, String, ArrayList<Movie>> {
         return Data;
     }
 
-
     @Override
-    protected void onPostExecute(final ArrayList<Movie> movies) {
-        listen.onSuccess(movies);
+    protected void onPostExecute(final ArrayList<String> keys) {
+        listen.onSuccess(keys);
     }
-
 }

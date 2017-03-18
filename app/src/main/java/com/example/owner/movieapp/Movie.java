@@ -2,28 +2,39 @@ package com.example.owner.movieapp;
 
 import java.io.Serializable;
 
-/**
- * Created by Owner on 11-Oct-16.
- */
 
 public class Movie implements Serializable {
-    private int Image;
+    private String Image;
+    private String BackgroundImage;
     private String Description;
     private String Title;
     private double Rate;
+    private String RDate;
+    private int ID;
 
-    public Movie(int image, String description, String title, double rate) {
+    public Movie(String image, String description, String title, double rate, String date, String backgroundImage, int id) {
         this.Image = image;
         this.Description = description;
         this.Title = title;
         this.Rate = rate;
+        this.RDate = date;
+        this.BackgroundImage = backgroundImage;
+        this.ID = id;
+    }
+
+    public Movie(int id, String title, String image, String date, double rate) {
+        this.Image = image;
+        this.Title = title;
+        this.Rate = rate;
+        this.RDate = date;
+        this.ID = id;
     }
 
     public String getDescription() {
         return Description;
     }
 
-    public int getImage() {
+    public String getImage() {
         return Image;
     }
 
@@ -33,5 +44,17 @@ public class Movie implements Serializable {
 
     public double getRate() {
         return Rate;
+    }
+
+    public String getRDate() {
+        return RDate;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public String getBackgroundImage() {
+        return BackgroundImage;
     }
 }
