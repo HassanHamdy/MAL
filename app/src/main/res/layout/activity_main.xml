@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context="com.example.owner.movieapp.MainActivity">
+    tools:context="com.example.owner.movieapp.Activities.MainActivity">
 
     <FrameLayout
         android:id="@+id/aContainer"

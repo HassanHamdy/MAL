@@ -1,15 +1,20 @@
-package com.example.owner.movieapp;
+package com.example.owner.movieapp.Activities;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.widget.Toast;
+
+import com.example.owner.movieapp.Data.Listener;
+import com.example.owner.movieapp.Data.Movie;
+import com.example.owner.movieapp.Fragments.Detail_view_Fragment;
+import com.example.owner.movieapp.Fragments.MainActivityFragment;
+import com.example.owner.movieapp.R;
 
 
 public class MainActivity extends AppCompatActivity implements Listener {
@@ -52,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements Listener {
         if (mIsTwoPane == false || getResources().getConfiguration().orientation != 2) {
             startActivity(new Intent(this, Detail_view.class).putExtra("data", Data));
         } else {
-            Detail_Fragment dFr = new Detail_Fragment();
+            Detail_view_Fragment dFr = new Detail_view_Fragment();
             Bundle extras = new Bundle();
             extras.putSerializable("data", Data);
             dFr.setArguments(extras);

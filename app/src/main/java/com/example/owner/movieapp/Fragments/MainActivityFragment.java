@@ -1,10 +1,9 @@
-package com.example.owner.movieapp;
+package com.example.owner.movieapp.Fragments;
 
 import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +17,13 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.RadioButton;
 import android.widget.Toast;
+
+import com.example.owner.movieapp.Activities.showFavourite;
+import com.example.owner.movieapp.Adapter.AdapterClass;
+import com.example.owner.movieapp.Data.Listener;
+import com.example.owner.movieapp.Data.Movie;
+import com.example.owner.movieapp.JsonParsing.Async;
+import com.example.owner.movieapp.R;
 
 import java.util.ArrayList;
 
@@ -45,17 +51,18 @@ public class MainActivityFragment extends Fragment {
         myUrl = "http://api.themoviedb.org/3/movie/popular?api_key=" + API_KEY;
         new Async(getActivity(), new Async.onResponse() {
             @Override
-            public void onSuccess(final ArrayList<Movie> data) {
-                GridView gridView = (GridView) view.findViewById(R.id.Grid_View);
-                gridView.setAdapter(new AdapterClass(view.getContext(), data));
+            public void onSuccess(final ArrayList data) {
+                final ArrayList<Movie> movies = (ArrayList<Movie>) data;
+                GridView gridView = view.findViewById(R.id.Grid_View);
+                gridView.setAdapter(new AdapterClass(view.getContext(), movies, 0));
                 gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView<?> parent, View v,
                                             int position, long id) {
-                        mListener.setSelectedItem(data.get(position));
+                        mListener.setSelectedItem(movies.get(position));
                     }
                 });
             }
-        }).execute(myUrl);
+        }, 0).execute(myUrl);
 
         return view;
     }
@@ -74,33 +81,35 @@ public class MainActivityFragment extends Fragment {
             myUrl = "http://api.themoviedb.org/3/movie/top_rated?api_key=" + API_KEY;
             new Async(getActivity(), new Async.onResponse() {
                 @Override
-                public void onSuccess(final ArrayList<Movie> data) {
-                    GridView gridView = (GridView) getView().findViewById(R.id.Grid_View);
-                    gridView.setAdapter(new AdapterClass(getActivity(), data));
+                public void onSuccess(final ArrayList data) {
+                    final ArrayList<Movie> movies = (ArrayList<Movie>) data;
+                    GridView gridView = getView().findViewById(R.id.Grid_View);
+                    gridView.setAdapter(new AdapterClass(getActivity(), movies, 0));
                     gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         public void onItemClick(AdapterView<?> parent, View v,
                                                 int position, long id) {
-                            mListener.setSelectedItem(data.get(position));
+                            mListener.setSelectedItem(movies.get(position));
                         }
                     });
                 }
-            }).execute(myUrl);
+            }, 0).execute(myUrl);
             dialog.dismiss();
         } else if (rd2.isChecked()) {
             myUrl = "http://api.themoviedb.org/3/movie/popular?api_key=" + API_KEY;
             new Async(getActivity(), new Async.onResponse() {
                 @Override
-                public void onSuccess(final ArrayList<Movie> data) {
-                    GridView gridView = (GridView) getView().findViewById(R.id.Grid_View);
-                    gridView.setAdapter(new AdapterClass(getActivity(), data));
+                public void onSuccess(final ArrayList data) {
+                    final ArrayList<Movie> movies = (ArrayList<Movie>) data;
+                    GridView gridView = getView().findViewById(R.id.Grid_View);
+                    gridView.setAdapter(new AdapterClass(getActivity(), movies, 0));
                     gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         public void onItemClick(AdapterView<?> parent, View v,
                                                 int position, long id) {
-                            mListener.setSelectedItem(data.get(position));
+                            mListener.setSelectedItem(movies.get(position));
                         }
                     });
                 }
-            }).execute(myUrl);
+            }, 0).execute(myUrl);
             dialog.dismiss();
         } else
             Toast.makeText(getActivity(), "Please Choose one ..!", Toast.LENGTH_SHORT).show();
@@ -113,9 +122,9 @@ public class MainActivityFragment extends Fragment {
             dialog = new Dialog(getActivity());
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);//remove title
             dialog.setContentView(R.layout.dialogue_box);
-            rd1 = (RadioButton) dialog.findViewById(R.id.Top_reated);
-            rd2 = (RadioButton) dialog.findViewById(R.id.Most_popular);
-            btn = (Button) dialog.findViewById(R.id.dialog_button);
+            rd1 = dialog.findViewById(R.id.Top_reated);
+            rd2 = dialog.findViewById(R.id.Most_popular);
+            btn = dialog.findViewById(R.id.dialog_button);
             btn.setOnClickListener(new OnClickListener() {
 
                 @Override

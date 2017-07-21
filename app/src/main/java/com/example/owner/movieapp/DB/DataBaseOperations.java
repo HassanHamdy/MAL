@@ -1,31 +1,31 @@
-package com.example.owner.movieapp;
+package com.example.owner.movieapp.DB;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
+import com.example.owner.movieapp.Data.Movie;
 
 import java.util.ArrayList;
 
-import static com.example.owner.movieapp.TableData.TableInfo.DATABASE_NAME;
-import static com.example.owner.movieapp.TableData.TableInfo.TABLE_NAME;
+import static com.example.owner.movieapp.DB.TableData.TableInfo.DATABASE_NAME;
+import static com.example.owner.movieapp.DB.TableData.TableInfo.TABLE_NAME;
 
 
 public class DataBaseOperations extends SQLiteOpenHelper {
 
     private ArrayList<Movie> Data;
-    public static final int DATABASE_VERSION = 1;
-    public String CREATE_TABLE_QUERY = "CREATE TABLE " + TABLE_NAME +
+    private static final int DATABASE_VERSION = 1;
+    private String CREATE_TABLE_QUERY = "CREATE TABLE " + TABLE_NAME +
             "(" + TableData.TableInfo.ID + " REAL," + TableData.TableInfo.Title + " TEXT," + TableData.TableInfo.Image
             + " TEXT," + TableData.TableInfo.RDate + " TEXT," + TableData.TableInfo.Rate + " REAL);";
     private SQLiteDatabase db;
 
     public DataBaseOperations(Context context) {
         super(context, TableData.TableInfo.TABLE_NAME, null, DATABASE_VERSION);
-        db = context.openOrCreateDatabase(DATABASE_NAME, DATABASE_VERSION, null, null);
+        db = context.openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE, null, null);
     }
 
     @Override
@@ -64,10 +64,13 @@ public class DataBaseOperations extends SQLiteOpenHelper {
                 " WHERE " + TableData.TableInfo.ID + " == " + id + ";";
         Cursor cr = db.getReadableDatabase().rawQuery(query, null);
 
-        if (!(cr.moveToFirst()) || cr.getCount() == 0) {
+        if ((cr.moveToFirst()) && cr.getCount() != 0) {
+            cr.close();
+        } else {
+            cr.close();
             return false;//empty
-        } else
-            return true;
+        }
+        return true;
     }
 
     public boolean DeleteRow(DataBaseOperations db, int id) {

@@ -1,4 +1,4 @@
-package com.example.owner.movieapp;
+package com.example.owner.movieapp.Fragments;
 
 import android.app.Fragment;
 import android.content.res.ColorStateList;
@@ -9,7 +9,6 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,29 +21,31 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.owner.movieapp.Adapter.AdapterClass;
+import com.example.owner.movieapp.DB.DataBaseOperations;
+import com.example.owner.movieapp.Data.Movie;
+import com.example.owner.movieapp.Data.Reviews;
+import com.example.owner.movieapp.JsonParsing.Async;
+import com.example.owner.movieapp.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import static android.content.ContentValues.TAG;
 
-/**
- * Created by Owner on 21-Nov-16.
- */
+public class Detail_view_Fragment extends Fragment {
 
-public class Detail_Fragment extends Fragment {
-
+    private CollapsingToolbarLayout collapsingToolbarLayout = null;
     FloatingActionButton fb_add;
     FloatingActionButton fb_remove;
     Movie data;
-    ArrayList<Integer> mIDs = new ArrayList<Integer>();
+    ArrayList<Integer> mIDs = new ArrayList<>();
     String NAME = "";
     private String API_KEY ="29666f5544f68b7f910faab81b8792ef";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.d_frag, container, false);
+        View view = inflater.inflate(R.layout.details_fragment, container, false);
 
         DataBaseOperations db = new DataBaseOperations(getActivity());
 
@@ -67,8 +68,16 @@ public class Detail_Fragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        data = (Movie) getArguments().getSerializable("data");
-        fb_add = (FloatingActionButton) getView().findViewById(R.id.fabAdd);
+        data = (Movie) getActivity().getIntent().getSerializableExtra("data");
+
+
+        Toolbar toolbar = getView().findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+
+        ImageView backImg = getView().findViewById(R.id.background_img);
+        Picasso.with(getActivity()).load(data.getBackgroundImage()).into(backImg);
+
+        fb_add = getView().findViewById(R.id.fabAdd);
         fb_add.setBackgroundTintList(ColorStateList.valueOf(Color
                 .parseColor("#FFFFFF")));
         if (mIDs.contains(data.getID()))
@@ -83,7 +92,7 @@ public class Detail_Fragment extends Fragment {
             }
         });
 
-        fb_remove = (FloatingActionButton) getView().findViewById(R.id.fabRemove);
+        fb_remove = getView().findViewById(R.id.fabRemove);
         fb_remove.setBackgroundTintList(ColorStateList.valueOf(Color
                 .parseColor("#FFFFFF")));
 
@@ -94,29 +103,32 @@ public class Detail_Fragment extends Fragment {
             }
         });
 
+        collapsingToolbarLayout = getView().findViewById(R.id.collapseBar);
+        collapsingToolbarLayout.setTitle(data.getTitle());
+
 
         NAME = data.getTitle();
 
 
-        ImageView image = (ImageView) getView().findViewById(R.id.imageView);
+        ImageView image = getView().findViewById(R.id.imageView);
         Picasso.with(getActivity()).load(data.getImage()).into(image);
 
-        RatingBar Rate = (RatingBar) getView().findViewById(R.id.rating_bar);
+        RatingBar Rate = getView().findViewById(R.id.rating_bar);
         Rate.setRating((float) data.getRate());
 
-        TextView rdate = (TextView) getView().findViewById(R.id.textView_ReleaseDate);
+        TextView rdate = getView().findViewById(R.id.textView_ReleaseDate);
         rdate.setText(data.getRDate());
 
 
-        TextView description = (TextView) getView().findViewById(R.id.textView_description);
+        TextView description = getView().findViewById(R.id.textView_description);
         description.setText(data.getDescription());
 
 
         String myUrl = "http://api.themoviedb.org/3/movie/" + data.getID() + "/reviews?api_key=" + API_KEY;
-        new ReviewsAsyncTask(getActivity(), new ReviewsAsyncTask.onResponse() {
+        new Async(getActivity(), new Async.onResponse() {
             @Override
-            public void onSuccess(ArrayList<Reviews> data) {
-                ListView listView = (ListView) getView().findViewById(R.id.listreview);
+            public void onSuccess(ArrayList data) {
+                ListView listView = getView().findViewById(R.id.listreview);
                 listView.setOnTouchListener(new View.OnTouchListener() {
                     // Setting on Touch Listener for handling the touch inside ScrollView
                     @Override
@@ -126,17 +138,17 @@ public class Detail_Fragment extends Fragment {
                         return false;
                     }
                 });
-                setListViewHeightBasedOnChildren(listView);
-                listView.setAdapter(new ReviewAdapter(getActivity(), data));
+                listView.setAdapter(new AdapterClass(getActivity(), (ArrayList<Reviews>) data, 1));
+//                setListViewHeightBasedOnChildren(listView);
             }
-        }).execute(myUrl);
+        }, 1).execute(myUrl);
 
 
         String URL = "http://api.themoviedb.org/3/movie/" + data.getID() + "/videos?api_key=" + API_KEY;
-        new youtubeAsync(getActivity(), new youtubeAsync.onResponse() {
+        new Async(getActivity(), new Async.onResponse() {
             @Override
-            public void onSuccess(ArrayList<String> data) {
-                ListView listView = (ListView) getView().findViewById(R.id.listYT);
+            public void onSuccess(ArrayList data) {
+                ListView listView = getView().findViewById(R.id.listYT);
                 listView.setOnTouchListener(new View.OnTouchListener() {
                     // Setting on Touch Listener for handling the touch inside ScrollView
                     @Override
@@ -146,10 +158,10 @@ public class Detail_Fragment extends Fragment {
                         return false;
                     }
                 });
-                setListViewHeightBasedOnChildren(listView);
-                listView.setAdapter(new youtube_adapter(getActivity(), data, NAME));
+                listView.setAdapter(new AdapterClass(getActivity(), (ArrayList<String>) data, 2));
+//                setListViewHeightBasedOnChildren(listView);
             }
-        }).execute(URL);
+        }, 2).execute(URL);
 
 
     }
@@ -199,4 +211,5 @@ public class Detail_Fragment extends Fragment {
         }
 
     }
+
 }

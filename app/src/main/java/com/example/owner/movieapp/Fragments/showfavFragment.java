@@ -1,4 +1,4 @@
-package com.example.owner.movieapp;
+package com.example.owner.movieapp.Fragments;
 
 import android.app.Fragment;
 import android.database.Cursor;
@@ -8,6 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.Toast;
+
+import com.example.owner.movieapp.Adapter.AdapterClass;
+import com.example.owner.movieapp.DB.DataBaseOperations;
+import com.example.owner.movieapp.Data.Movie;
+import com.example.owner.movieapp.R;
 
 import java.util.ArrayList;
 
@@ -24,7 +29,7 @@ public class showfavFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ArrayList<Movie> FavData = new ArrayList<Movie>();
+        ArrayList<Movie> FavData = new ArrayList<>();
 
         DataBaseOperations db = new DataBaseOperations(getActivity());
 
@@ -41,7 +46,7 @@ public class showfavFragment extends Fragment {
         cr.close();
         db.close();
 
-        GridView gridView = (GridView) getView().findViewById(R.id.grid);
-        gridView.setAdapter(new AdapterClass(getActivity(), FavData));
+        GridView gridView = getView().findViewById(R.id.grid);
+        gridView.setAdapter(new AdapterClass(getActivity(), FavData, 0));
     }
 }

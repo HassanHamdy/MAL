@@ -1,4 +1,4 @@
-package com.example.owner.movieapp;
+package com.example.owner.movieapp.Data;
 
 import java.io.Serializable;
 

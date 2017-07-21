@@ -1,9 +1,12 @@
-package com.example.owner.movieapp;
+package com.example.owner.movieapp.Activities;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.example.owner.movieapp.Fragments.showfavFragment;
+import com.example.owner.movieapp.R;
 
 
 public class showFavourite extends AppCompatActivity {

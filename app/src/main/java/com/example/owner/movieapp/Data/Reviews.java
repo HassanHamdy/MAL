@@ -1,5 +1,7 @@
-package com.example.owner.movieapp;
+package com.example.owner.movieapp.Data;
 
+
+import com.example.owner.movieapp.R;
 
 public class Reviews {
     private String author_Name;

@@ -1,4 +1,4 @@
-package com.example.owner.movieapp;
+package com.example.owner.movieapp.DB;
 
 import android.provider.BaseColumns;
 
