@@ -54,7 +54,7 @@ public class MainActivityFragment extends Fragment {
             public void onSuccess(final ArrayList data) {
                 final ArrayList<Movie> movies = (ArrayList<Movie>) data;
                 GridView gridView = view.findViewById(R.id.Grid_View);
-                gridView.setAdapter(new AdapterClass(view.getContext(), movies, 0));
+                gridView.setAdapter(new AdapterClass(view.getContext(), movies, 0, 0));
                 gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView<?> parent, View v,
                                             int position, long id) {
@@ -84,7 +84,7 @@ public class MainActivityFragment extends Fragment {
                 public void onSuccess(final ArrayList data) {
                     final ArrayList<Movie> movies = (ArrayList<Movie>) data;
                     GridView gridView = getView().findViewById(R.id.Grid_View);
-                    gridView.setAdapter(new AdapterClass(getActivity(), movies, 0));
+                    gridView.setAdapter(new AdapterClass(getActivity(), movies, 0, 0));
                     gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         public void onItemClick(AdapterView<?> parent, View v,
                                                 int position, long id) {
@@ -101,7 +101,7 @@ public class MainActivityFragment extends Fragment {
                 public void onSuccess(final ArrayList data) {
                     final ArrayList<Movie> movies = (ArrayList<Movie>) data;
                     GridView gridView = getView().findViewById(R.id.Grid_View);
-                    gridView.setAdapter(new AdapterClass(getActivity(), movies, 0));
+                    gridView.setAdapter(new AdapterClass(getActivity(), movies, 0, 0));
                     gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         public void onItemClick(AdapterView<?> parent, View v,
                                                 int position, long id) {

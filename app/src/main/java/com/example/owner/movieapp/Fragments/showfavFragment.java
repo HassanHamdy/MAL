@@ -47,6 +47,6 @@ public class showfavFragment extends Fragment {
         db.close();
 
         GridView gridView = getView().findViewById(R.id.grid);
-        gridView.setAdapter(new AdapterClass(getActivity(), FavData, 0));
+        gridView.setAdapter(new AdapterClass(getActivity(), FavData, 0, 0));
     }
 }

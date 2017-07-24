@@ -7,8 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -42,6 +41,7 @@ public class Detail_view_Fragment extends Fragment {
     String NAME = "";
     private String API_KEY ="29666f5544f68b7f910faab81b8792ef";
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -67,13 +67,9 @@ public class Detail_view_Fragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Log.d("HASSAN", String.valueOf(getActivity()));
 
-        data = (Movie) getActivity().getIntent().getSerializableExtra("data");
-
-
-        Toolbar toolbar = getView().findViewById(R.id.toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-
+        data = (Movie) getArguments().getSerializable("data");
         ImageView backImg = getView().findViewById(R.id.background_img);
         Picasso.with(getActivity()).load(data.getBackgroundImage()).into(backImg);
 
@@ -104,6 +100,7 @@ public class Detail_view_Fragment extends Fragment {
         });
 
         collapsingToolbarLayout = getView().findViewById(R.id.collapseBar);
+        collapsingToolbarLayout.setExpandedTitleColor(Color.TRANSPARENT);
         collapsingToolbarLayout.setTitle(data.getTitle());
 
 
@@ -138,7 +135,7 @@ public class Detail_view_Fragment extends Fragment {
                         return false;
                     }
                 });
-                listView.setAdapter(new AdapterClass(getActivity(), (ArrayList<Reviews>) data, 1));
+                listView.setAdapter(new AdapterClass(getActivity(), (ArrayList<Reviews>) data, 1, 1));
 //                setListViewHeightBasedOnChildren(listView);
             }
         }, 1).execute(myUrl);
@@ -158,7 +155,7 @@ public class Detail_view_Fragment extends Fragment {
                         return false;
                     }
                 });
-                listView.setAdapter(new AdapterClass(getActivity(), (ArrayList<String>) data, 2));
+                listView.setAdapter(new AdapterClass(getActivity(), (ArrayList<String>) data, 2, 1));
 //                setListViewHeightBasedOnChildren(listView);
             }
         }, 2).execute(URL);
@@ -211,5 +208,6 @@ public class Detail_view_Fragment extends Fragment {
         }
 
     }
+
 
 }

@@ -1,45 +1,68 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="#7e7e7e">
 
     <android.support.v7.widget.DialogTitle
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/title"
-        android:textAlignment="center"
         android:background="@color/cardview_dark_background"
-        android:textColor="#FFFFFF"
-        android:text="Choosing....."
+        android:fontFamily="casual"
         android:paddingBottom="16dp"
-        android:paddingTop="16dp"/>
+        android:paddingTop="16dp"
+        android:text="Choosing....."
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        tools:ignore="HardcodedText" />
 
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/RD_Group"
         android:layout_below="@id/title">
-    <RadioButton
-        android:id="@+id/Top_reated"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Top Rated"
-        android:textSize="20dp"/>
 
-    <RadioButton
-        android:id="@+id/Most_popular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/Top_reated"
-        android:text="Most Popular"
-        android:textSize="20dp"/>
+        <RadioButton
+            android:id="@+id/Top_reated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="casual"
+            android:text="Top Rated"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:typeface="serif"
+            tools:ignore="HardcodedText,SpUsage" />
+
+        <RadioButton
+            android:id="@+id/Most_popular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Top_reated"
+            android:fontFamily="casual"
+            android:text="Most Popular"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:typeface="serif"
+            tools:ignore="HardcodedText,ObsoleteLayoutParam,SpUsage" />
     </RadioGroup>
+
     <Button
         android:id="@+id/dialog_button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/RD_Group"
         android:layout_centerInParent="true"
+        android:fontFamily="casual"
         android:text="OK"
-        android:textSize="20dp"/>
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        tools:ignore="HardcodedText,SpUsage" />
 </RelativeLayout>

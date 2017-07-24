@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,7 @@ public class AdapterClass extends ArrayAdapter {
 
     private Context context;
     public ArrayList Data;
-    private int check;
+    private int check, frag;
     private ArrayList<String> StringData;
     private ArrayList<Reviews> ReviewData;
     private ArrayList<Movie> MovieData;
@@ -36,10 +37,11 @@ public class AdapterClass extends ArrayAdapter {
     private showFavourite sf = new showFavourite();
 
 
-    public AdapterClass(Context c, ArrayList data, int Check) {
+    public AdapterClass(Context c, ArrayList data, int Check, int Frag) {
         super(c, -1);
         context = c;
         Data = data;
+        frag = Frag;
         if (Check == 0) {
             MovieData = (ArrayList<Movie>) Data;
         } else if (Check == 1) {
@@ -80,27 +82,82 @@ public class AdapterClass extends ArrayAdapter {
     @NonNull
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        Log.d("HASSAN", context.getClass().getSimpleName());
+        Log.d("HASSAN", "getView: " + position);
 
         View rowView = convertView;
         if (context.getClass().getSimpleName().equals(mf.getClass().getSimpleName()) ||
                 context.getClass().getSimpleName().equals(sf.getClass().getSimpleName())) {
 
 
-            viewHolderItem viewHolder;
-            if (convertView == null) {
-                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                rowView = inflater.inflate(R.layout.gridviewitem, parent, false);
-                viewHolder = new viewHolderItem();
-                viewHolder.imageView = rowView.findViewById(R.id.imageView);
-                // store the holder with the view.
+            if (frag == 0) {
+
+                viewHolderItem viewHolder;
+                if (convertView == null) {
+                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    rowView = inflater.inflate(R.layout.gridviewitem, parent, false);
+                    viewHolder = new viewHolderItem();
+                    viewHolder.imageView = rowView.findViewById(R.id.imageView);
+                    // store the holder with the view.
+                    rowView.setTag(viewHolder);
+
+                } else {
+                    viewHolder = (viewHolderItem) convertView.getTag();
+                }
+
+                Picasso.with(context).load(MovieData.get(position).getImage()).into(viewHolder.imageView);
                 rowView.setTag(viewHolder);
 
-            } else {
-                viewHolder = (viewHolderItem) convertView.getTag();
+            } else if (frag == 1 && check == 1) {
+                AdapterClass.viewHolderItem viewHolder;
+                if (convertView == null) {
+                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    rowView = inflater.inflate(R.layout.review_items, parent, false);
+                    viewHolder = new AdapterClass.viewHolderItem();
+                    viewHolder.imageView1 = rowView.findViewById(R.id.ownerImage);
+                    viewHolder.OW_NameTextView = rowView.findViewById(R.id.name);
+                    viewHolder.contentTextView = rowView.findViewById(R.id.review);
+                    // store the holder with the view.
+                    rowView.setTag(viewHolder);
+
+                } else {
+                    viewHolder = (AdapterClass.viewHolderItem) convertView.getTag();
+                }
+
+                viewHolder.imageView1.setImageResource(ReviewData.get(position).getImgID());
+                viewHolder.OW_NameTextView.setText(ReviewData.get(position).getAuthor_Name());
+                viewHolder.contentTextView.setText(ReviewData.get(position).getContent());
+            } else if (frag == 1 && check == 2) {
+
+                AdapterClass.viewHolderItem viewHolder;
+
+                if (convertView == null) {
+                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    rowView = inflater.inflate(R.layout.youtube_items, parent, false);
+                    viewHolder = new AdapterClass.viewHolderItem();
+                    viewHolder.youtube_img = rowView.findViewById(R.id.youtube_img);
+                    viewHolder.txtName = rowView.findViewById(R.id.NameVideo);
+                    // store the holder with the view.
+                    rowView.setTag(viewHolder);
+
+                } else {
+                    viewHolder = (AdapterClass.viewHolderItem) convertView.getTag();
+                }
+
+                viewHolder.youtube_img.setImageResource(R.drawable.youtubeimg);
+                viewHolder.youtube_img.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(StringData.get(position)));
+                        context.startActivity(webIntent);
+                    }
+                });
+
+                viewHolder.txtName.setText("Trailer ( " + (position + 1) + " )");
+                rowView.setTag(viewHolder);
+
             }
 
-            Picasso.with(context).load(MovieData.get(position).getImage()).into(viewHolder.imageView);
-            rowView.setTag(viewHolder);
 
         } else if (context.getClass().getSimpleName().equals(df.getClass().getSimpleName()) &&
                 check == 1) {
@@ -153,7 +210,7 @@ public class AdapterClass extends ArrayAdapter {
                 }
             });
 
-            viewHolder.txtName.setText("Trailer (" + (position + 1) + ")");
+            viewHolder.txtName.setText("Trailer ( " + (position + 1) + " )");
             rowView.setTag(viewHolder);
 
         }

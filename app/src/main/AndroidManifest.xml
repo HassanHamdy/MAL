@@ -21,8 +21,11 @@
         </activity>
         <activity
             android:name=".Activities.Detail_view"
+            android:parentActivityName=".Activities.MainActivity"
             android:theme="@style/noActionBarTheme" />
-        <activity android:name=".Activities.showFavourite" />
+        <activity
+            android:name=".Activities.showFavourite"
+            android:parentActivityName=".Activities.MainActivity" />
     </application>
 
 </manifest>

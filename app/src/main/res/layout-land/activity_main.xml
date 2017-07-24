@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:baselineAligned="false"
+    android:background="#E8E8E8"
     tools:context="com.example.owner.movieapp.Activities.MainActivity">
 
     <FrameLayout

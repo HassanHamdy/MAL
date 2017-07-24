@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:background="#E8E8E8">
 
     <!-- here make layout of collapse bar as using this theme to make text white instead of black-->
 
@@ -58,68 +59,98 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="140dp"
-                android:layout_height="225dp"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="16dp"
-                android:scaleType="centerCrop"
-                tools:ignore="ContentDescription,RtlHardcoded" />
-
-            <RatingBar
-                android:id="@+id/rating_bar"
-                style="?android:attr/ratingBarStyleSmall"
+            <RelativeLayout
+                android:id="@+id/DetailsContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="50dp"
-                android:layout_toRightOf="@id/imageView"
-                android:numStars="10"
-                android:stepSize="0.1"
-                tools:ignore="RtlHardcoded" />
+                android:layout_marginTop="16dp">
 
-            <TextView
-                android:id="@+id/textView_ReleaseDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/rating_bar"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="10dp"
-                android:layout_toRightOf="@id/imageView"
-                android:fontFamily="casual"
-                android:textAlignment="center"
-                android:textColor="#696969"
-                android:textSize="20sp"
-                android:typeface="serif"
-                tools:ignore="RtlHardcoded" />
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="150dp"
+                    android:layout_height="275dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="16dp"
+                    android:scaleType="centerCrop"
+                    tools:ignore="ContentDescription,RtlHardcoded" />
+
+                <RatingBar
+                    android:id="@+id/rating_bar"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="9dp"
+                    android:layout_toRightOf="@id/imageView"
+                    android:numStars="10"
+                    android:stepSize="0.1"
+                    tools:ignore="RtlHardcoded"
+                    android:layout_alignTop="@+id/imageView" />
+
+                <TextView
+                    android:id="@+id/textView_ReleaseDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rating_bar"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="24dp"
+                    android:fontFamily="casual"
+                    android:textAlignment="center"
+                    android:textColor="#000"
+                    android:textSize="20sp"
+                    android:typeface="serif"
+                    tools:ignore="RtlHardcoded"
+                    android:layout_toEndOf="@+id/imageView" />
+
+                <TextView
+                    android:id="@+id/dscTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="casual"
+                    android:text="Description"
+                    android:textAlignment="center"
+                    android:textColor="#000"
+                    android:textSize="30dp"
+                    android:textStyle="bold"
+                    android:typeface="serif"
+                    tools:ignore="HardcodedText,SpUsage"
+                    android:layout_below="@+id/textView_ReleaseDate"
+                    android:layout_toEndOf="@+id/imageView" />
 
 
-            <TextView
-                android:id="@+id/textView_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/imageView"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="10dp"
-                android:textColor="#000"
-                android:textSize="16sp"
-                tools:ignore="RtlHardcoded" />
+                <TextView
+                    android:id="@+id/textView_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dscTxt"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_toEndOf="@+id/imageView"
+                    android:fontFamily="casual"
+                    android:textAlignment="center"
+                    android:textColor="#000"
+                    android:textSize="16sp"
+                    android:typeface="serif"
+                    tools:ignore="RtlHardcoded" />
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/yt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/textView_description"
+                android:layout_below="@id/DetailsContent"
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="16dp"
+                android:fontFamily="casual"
                 android:text="Trailer"
                 android:textAlignment="center"
                 android:textColor="#000"
                 android:textSize="30dp"
+                android:textStyle="bold"
+                android:typeface="serif"
                 tools:ignore="HardcodedText,SpUsage" />
 
             <ListView
@@ -136,10 +167,13 @@
                 android:layout_below="@id/listYT"
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="16dp"
+                android:fontFamily="casual"
                 android:text="Reviews"
                 android:textAlignment="center"
                 android:textColor="#000"
                 android:textSize="30dp"
+                android:textStyle="bold"
+                android:typeface="serif"
                 tools:ignore="HardcodedText,SpUsage" />
 
             <ListView
