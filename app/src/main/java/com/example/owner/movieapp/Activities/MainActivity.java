@@ -12,8 +12,8 @@ import android.widget.Toast;
 
 import com.example.owner.movieapp.Data.Listener;
 import com.example.owner.movieapp.Data.Movie;
-import com.example.owner.movieapp.Fragments.Detail_view_Fragment;
-import com.example.owner.movieapp.Fragments.MainActivityFragment;
+import com.example.owner.movieapp.Fragments.DetailFragment;
+import com.example.owner.movieapp.Fragments.MainFragment;
 import com.example.owner.movieapp.R;
 
 
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements Listener {
 
 
         ConnectivityManager cm =
-                (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements Listener {
 
             }
 
-            MainActivityFragment mFr = new MainActivityFragment();
+            MainFragment mFr = new MainFragment();
             FragmentManager mFm = getFragmentManager();
             FragmentTransaction fragmentTransaction = mFm.beginTransaction();
             fragmentTransaction.replace(R.id.aContainer, mFr, "Main");
@@ -55,9 +55,9 @@ public class MainActivity extends AppCompatActivity implements Listener {
     @Override
     public void setSelectedItem(Movie Data) {
         if (mIsTwoPane == false || getResources().getConfiguration().orientation != 2) {
-            startActivity(new Intent(this, Detail_view.class).putExtra("data", Data));
+            startActivity(new Intent(this, DetailActivity.class).putExtra("data", Data));
         } else {
-            Detail_view_Fragment dFr = new Detail_view_Fragment();
+            DetailFragment dFr = new DetailFragment();
             Bundle extras = new Bundle();
             extras.putSerializable("data", Data);
             dFr.setArguments(extras);

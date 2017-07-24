@@ -3,9 +3,6 @@ package com.example.owner.movieapp.JsonParsing;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.example.owner.movieapp.Activities.Detail_view;
-import com.example.owner.movieapp.Activities.MainActivity;
-import com.example.owner.movieapp.Activities.showFavourite;
 import com.example.owner.movieapp.Data.Movie;
 import com.example.owner.movieapp.Data.Reviews;
 
@@ -26,9 +23,6 @@ import java.util.ArrayList;
 
 public class Async extends AsyncTask<String, String, ArrayList> {
 
-    private Detail_view df = new Detail_view();
-    private MainActivity mf = new MainActivity();
-    private showFavourite sf = new showFavourite();
 
     public interface onResponse {
         void onSuccess(ArrayList data);
@@ -37,12 +31,12 @@ public class Async extends AsyncTask<String, String, ArrayList> {
     private onResponse listen;
     private Context context;
     private ArrayList Data = new ArrayList();
-    private int check;
+    private int ActivityNumber;
 
     public Async(Context c, onResponse listener, int Check) {
         context = c;
         this.listen = listener;
-        check = Check;
+        ActivityNumber = Check;
     }
 
 
@@ -70,7 +64,7 @@ public class Async extends AsyncTask<String, String, ArrayList> {
             //JSON parsing
             JSONObject JsonRootObject;
 
-            if (check == 0) {
+            if (ActivityNumber == 0) {
 
                 try {
                     JsonRootObject = new JSONObject(Jsonstr);
@@ -94,7 +88,7 @@ public class Async extends AsyncTask<String, String, ArrayList> {
                 //send Data to send it to onProgressUpdate method
                 //publishProgress(Jsonstr);
 
-            } else if (check == 1) {
+            } else if (ActivityNumber == 1) {
 
                 try {
                     JsonRootObject = new JSONObject(Jsonstr);
@@ -111,7 +105,7 @@ public class Async extends AsyncTask<String, String, ArrayList> {
                 //send Data to send it to onProgressUpdate method
                 //publishProgress(Jsonstr);
 
-            } else if (check == 2) {
+            } else if (ActivityNumber == 2) {
 
                 try {
                     JsonRootObject = new JSONObject(Jsonstr);

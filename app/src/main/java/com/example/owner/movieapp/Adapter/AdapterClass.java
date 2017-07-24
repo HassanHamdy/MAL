@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +11,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.owner.movieapp.Activities.Detail_view;
+import com.example.owner.movieapp.Activities.DetailActivity;
+import com.example.owner.movieapp.Activities.FavouriteActivity;
 import com.example.owner.movieapp.Activities.MainActivity;
-import com.example.owner.movieapp.Activities.showFavourite;
 import com.example.owner.movieapp.Data.Movie;
 import com.example.owner.movieapp.Data.Reviews;
 import com.example.owner.movieapp.R;
@@ -28,20 +27,20 @@ public class AdapterClass extends ArrayAdapter {
 
     private Context context;
     public ArrayList Data;
-    private int check, frag;
+    private int ActivityNumber, fragmentNumber;
     private ArrayList<String> StringData;
     private ArrayList<Reviews> ReviewData;
     private ArrayList<Movie> MovieData;
-    private Detail_view df = new Detail_view();
+    private DetailActivity df = new DetailActivity();
     private MainActivity mf = new MainActivity();
-    private showFavourite sf = new showFavourite();
+    private FavouriteActivity sf = new FavouriteActivity();
 
 
     public AdapterClass(Context c, ArrayList data, int Check, int Frag) {
         super(c, -1);
         context = c;
         Data = data;
-        frag = Frag;
+        fragmentNumber = Frag;
         if (Check == 0) {
             MovieData = (ArrayList<Movie>) Data;
         } else if (Check == 1) {
@@ -49,16 +48,16 @@ public class AdapterClass extends ArrayAdapter {
         } else {
             StringData = (ArrayList<String>) Data;
         }
-        check = Check;
+        ActivityNumber = Check;
     }
 
     @Override
     public int getCount() {
         int size;
 
-        if (check == 0) {
+        if (ActivityNumber == 0) {
             size = MovieData.size();
-        } else if (check == 1) {
+        } else if (ActivityNumber == 1) {
             size = ReviewData.size();
         } else {
             size = StringData.size();
@@ -82,22 +81,20 @@ public class AdapterClass extends ArrayAdapter {
     @NonNull
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        Log.d("HASSAN", context.getClass().getSimpleName());
-        Log.d("HASSAN", "getView: " + position);
 
         View rowView = convertView;
         if (context.getClass().getSimpleName().equals(mf.getClass().getSimpleName()) ||
                 context.getClass().getSimpleName().equals(sf.getClass().getSimpleName())) {
 
 
-            if (frag == 0) {
+            if (fragmentNumber == 0) {
 
                 viewHolderItem viewHolder;
                 if (convertView == null) {
                     LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    rowView = inflater.inflate(R.layout.gridviewitem, parent, false);
+                    rowView = inflater.inflate(R.layout.movie_item_grid_view, parent, false);
                     viewHolder = new viewHolderItem();
-                    viewHolder.imageView = rowView.findViewById(R.id.imageView);
+                    viewHolder.MovieImageView = rowView.findViewById(R.id.imageView);
                     // store the holder with the view.
                     rowView.setTag(viewHolder);
 
@@ -105,16 +102,16 @@ public class AdapterClass extends ArrayAdapter {
                     viewHolder = (viewHolderItem) convertView.getTag();
                 }
 
-                Picasso.with(context).load(MovieData.get(position).getImage()).into(viewHolder.imageView);
+                Picasso.with(context).load(MovieData.get(position).getImage()).into(viewHolder.MovieImageView);
                 rowView.setTag(viewHolder);
 
-            } else if (frag == 1 && check == 1) {
+            } else if (fragmentNumber == 1 && ActivityNumber == 1) {
                 AdapterClass.viewHolderItem viewHolder;
                 if (convertView == null) {
                     LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    rowView = inflater.inflate(R.layout.review_items, parent, false);
+                    rowView = inflater.inflate(R.layout.review_item_list_view, parent, false);
                     viewHolder = new AdapterClass.viewHolderItem();
-                    viewHolder.imageView1 = rowView.findViewById(R.id.ownerImage);
+                    viewHolder.ReviewOwnerImageView = rowView.findViewById(R.id.ownerImage);
                     viewHolder.OW_NameTextView = rowView.findViewById(R.id.name);
                     viewHolder.contentTextView = rowView.findViewById(R.id.review);
                     // store the holder with the view.
@@ -124,16 +121,16 @@ public class AdapterClass extends ArrayAdapter {
                     viewHolder = (AdapterClass.viewHolderItem) convertView.getTag();
                 }
 
-                viewHolder.imageView1.setImageResource(ReviewData.get(position).getImgID());
+                viewHolder.ReviewOwnerImageView.setImageResource(ReviewData.get(position).getImgID());
                 viewHolder.OW_NameTextView.setText(ReviewData.get(position).getAuthor_Name());
                 viewHolder.contentTextView.setText(ReviewData.get(position).getContent());
-            } else if (frag == 1 && check == 2) {
+            } else if (fragmentNumber == 1 && ActivityNumber == 2) {
 
                 AdapterClass.viewHolderItem viewHolder;
 
                 if (convertView == null) {
                     LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    rowView = inflater.inflate(R.layout.youtube_items, parent, false);
+                    rowView = inflater.inflate(R.layout.youtube_item_list_view, parent, false);
                     viewHolder = new AdapterClass.viewHolderItem();
                     viewHolder.youtube_img = rowView.findViewById(R.id.youtube_img);
                     viewHolder.txtName = rowView.findViewById(R.id.NameVideo);
@@ -160,14 +157,14 @@ public class AdapterClass extends ArrayAdapter {
 
 
         } else if (context.getClass().getSimpleName().equals(df.getClass().getSimpleName()) &&
-                check == 1) {
+                ActivityNumber == 1) {
 
             AdapterClass.viewHolderItem viewHolder;
             if (convertView == null) {
                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                rowView = inflater.inflate(R.layout.review_items, parent, false);
+                rowView = inflater.inflate(R.layout.review_item_list_view, parent, false);
                 viewHolder = new AdapterClass.viewHolderItem();
-                viewHolder.imageView1 = rowView.findViewById(R.id.ownerImage);
+                viewHolder.ReviewOwnerImageView = rowView.findViewById(R.id.ownerImage);
                 viewHolder.OW_NameTextView = rowView.findViewById(R.id.name);
                 viewHolder.contentTextView = rowView.findViewById(R.id.review);
                 // store the holder with the view.
@@ -177,20 +174,20 @@ public class AdapterClass extends ArrayAdapter {
                 viewHolder = (AdapterClass.viewHolderItem) convertView.getTag();
             }
 
-            viewHolder.imageView1.setImageResource(ReviewData.get(position).getImgID());
+            viewHolder.ReviewOwnerImageView.setImageResource(ReviewData.get(position).getImgID());
             viewHolder.OW_NameTextView.setText(ReviewData.get(position).getAuthor_Name());
             viewHolder.contentTextView.setText(ReviewData.get(position).getContent());
 
 
         } else if (context.getClass().getSimpleName().equals(df.getClass().getSimpleName()) &&
-                check == 2) {
+                ActivityNumber == 2) {
 
 
             AdapterClass.viewHolderItem viewHolder;
 
             if (convertView == null) {
                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                rowView = inflater.inflate(R.layout.youtube_items, parent, false);
+                rowView = inflater.inflate(R.layout.youtube_item_list_view, parent, false);
                 viewHolder = new AdapterClass.viewHolderItem();
                 viewHolder.youtube_img = rowView.findViewById(R.id.youtube_img);
                 viewHolder.txtName = rowView.findViewById(R.id.NameVideo);
@@ -219,9 +216,9 @@ public class AdapterClass extends ArrayAdapter {
     }
 
     private class viewHolderItem {
-        ImageView imageView;
+        ImageView MovieImageView;
 
-        ImageView imageView1;
+        ImageView ReviewOwnerImageView;
         TextView OW_NameTextView;
         TextView contentTextView;
 

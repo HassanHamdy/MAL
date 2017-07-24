@@ -31,21 +31,21 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 
-public class Detail_view_Fragment extends Fragment {
+public class DetailFragment extends Fragment {
 
     private CollapsingToolbarLayout collapsingToolbarLayout = null;
-    FloatingActionButton fb_add;
-    FloatingActionButton fb_remove;
-    Movie data;
-    ArrayList<Integer> mIDs = new ArrayList<>();
-    String NAME = "";
-    private String API_KEY ="29666f5544f68b7f910faab81b8792ef";
+    private FloatingActionButton fb_add;
+    private FloatingActionButton fb_remove;
+    private Movie data;
+    private ArrayList<Integer> IDsOfFavouriteMovies = new ArrayList<>();
+    private String AddMovieToFavourite = "Movie is added to favourite";
+    private String MovieAlreadyInFavourite = "This Movie is added later";
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.details_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_details, container, false);
 
         DataBaseOperations db = new DataBaseOperations(getActivity());
 
@@ -54,7 +54,7 @@ public class Detail_view_Fragment extends Fragment {
         if (cr.moveToFirst()) {
             do {
                 int id = cr.getInt(0);
-                mIDs.add(id);
+                IDsOfFavouriteMovies.add(id);
             } while (cr.moveToNext());
         }
 
@@ -76,7 +76,8 @@ public class Detail_view_Fragment extends Fragment {
         fb_add = getView().findViewById(R.id.fabAdd);
         fb_add.setBackgroundTintList(ColorStateList.valueOf(Color
                 .parseColor("#FFFFFF")));
-        if (mIDs.contains(data.getID()))
+
+        if (IDsOfFavouriteMovies.contains(data.getID()))
             fb_add.setImageResource(R.drawable.heart);
         else
             fb_add.setImageResource(R.drawable.tick);
@@ -104,29 +105,26 @@ public class Detail_view_Fragment extends Fragment {
         collapsingToolbarLayout.setTitle(data.getTitle());
 
 
-        NAME = data.getTitle();
+        ImageView imgMoviePoster = getView().findViewById(R.id.moviePoster);
+        Picasso.with(getActivity()).load(data.getImage()).into(imgMoviePoster);
+
+        RatingBar MovieRating = getView().findViewById(R.id.movieRate);
+        MovieRating.setRating((float) data.getRate());
+
+        TextView txtReleaseDate = getView().findViewById(R.id.txtReleaseDate);
+        txtReleaseDate.setText(data.getRDate());
 
 
-        ImageView image = getView().findViewById(R.id.imageView);
-        Picasso.with(getActivity()).load(data.getImage()).into(image);
-
-        RatingBar Rate = getView().findViewById(R.id.rating_bar);
-        Rate.setRating((float) data.getRate());
-
-        TextView rdate = getView().findViewById(R.id.textView_ReleaseDate);
-        rdate.setText(data.getRDate());
+        TextView txtDescription = getView().findViewById(R.id.txtDescription);
+        txtDescription.setText(data.getDescription());
 
 
-        TextView description = getView().findViewById(R.id.textView_description);
-        description.setText(data.getDescription());
-
-
-        String myUrl = "http://api.themoviedb.org/3/movie/" + data.getID() + "/reviews?api_key=" + API_KEY;
+        String myUrl = "http://api.themoviedb.org/3/movie/" + data.getID() + "/reviews?api_key=" + MainFragment.API_KEY;
         new Async(getActivity(), new Async.onResponse() {
             @Override
             public void onSuccess(ArrayList data) {
-                ListView listView = getView().findViewById(R.id.listreview);
-                listView.setOnTouchListener(new View.OnTouchListener() {
+                ListView ReviewsListView = getView().findViewById(R.id.reviewListView);
+                ReviewsListView.setOnTouchListener(new View.OnTouchListener() {
                     // Setting on Touch Listener for handling the touch inside ScrollView
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
@@ -135,18 +133,17 @@ public class Detail_view_Fragment extends Fragment {
                         return false;
                     }
                 });
-                listView.setAdapter(new AdapterClass(getActivity(), (ArrayList<Reviews>) data, 1, 1));
-//                setListViewHeightBasedOnChildren(listView);
+                ReviewsListView.setAdapter(new AdapterClass(getActivity(), (ArrayList<Reviews>) data, 1, 1));
             }
         }, 1).execute(myUrl);
 
 
-        String URL = "http://api.themoviedb.org/3/movie/" + data.getID() + "/videos?api_key=" + API_KEY;
+        String URL = "http://api.themoviedb.org/3/movie/" + data.getID() + "/videos?api_key=" + MainFragment.API_KEY;
         new Async(getActivity(), new Async.onResponse() {
             @Override
             public void onSuccess(ArrayList data) {
-                ListView listView = getView().findViewById(R.id.listYT);
-                listView.setOnTouchListener(new View.OnTouchListener() {
+                ListView YoutubeListView = getView().findViewById(R.id.youtubeListView);
+                YoutubeListView.setOnTouchListener(new View.OnTouchListener() {
                     // Setting on Touch Listener for handling the touch inside ScrollView
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
@@ -155,8 +152,7 @@ public class Detail_view_Fragment extends Fragment {
                         return false;
                     }
                 });
-                listView.setAdapter(new AdapterClass(getActivity(), (ArrayList<String>) data, 2, 1));
-//                setListViewHeightBasedOnChildren(listView);
+                YoutubeListView.setAdapter(new AdapterClass(getActivity(), (ArrayList<String>) data, 2, 1));
             }
         }, 2).execute(URL);
 
@@ -189,10 +185,10 @@ public class Detail_view_Fragment extends Fragment {
         boolean x = DB.Search(DB, data.getID());
         if (!x) {
             DB.StoreInDB(DB, data);
-            Toast.makeText(getActivity(), "Movie is added to favourite", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), AddMovieToFavourite, Toast.LENGTH_SHORT).show();
             fb_add.setImageResource(R.drawable.heart);
         } else {
-            Toast.makeText(getActivity(), "you added this movie later", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), MovieAlreadyInFavourite, Toast.LENGTH_SHORT).show();
             fb_add.setImageResource(R.drawable.heart);
         }
     }

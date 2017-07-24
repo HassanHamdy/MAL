@@ -6,7 +6,7 @@
     android:background="#E8E8E8">
 
     <GridView
-        android:id="@+id/grid"
+        android:id="@+id/FavouriteGridView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:numColumns="auto_fit"

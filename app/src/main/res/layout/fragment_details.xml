@@ -66,7 +66,7 @@
                 android:layout_marginTop="16dp">
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/moviePoster"
                     android:layout_width="150dp"
                     android:layout_height="275dp"
                     android:layout_marginBottom="16dp"
@@ -77,22 +77,22 @@
                     tools:ignore="ContentDescription,RtlHardcoded" />
 
                 <RatingBar
-                    android:id="@+id/rating_bar"
+                    android:id="@+id/movieRate"
                     style="?android:attr/ratingBarStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="9dp"
-                    android:layout_toRightOf="@id/imageView"
+                    android:layout_toRightOf="@id/moviePoster"
                     android:numStars="10"
                     android:stepSize="0.1"
                     tools:ignore="RtlHardcoded"
-                    android:layout_alignTop="@+id/imageView" />
+                    android:layout_alignTop="@+id/moviePoster" />
 
                 <TextView
-                    android:id="@+id/textView_ReleaseDate"
+                    android:id="@+id/txtReleaseDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/rating_bar"
+                    android:layout_below="@id/movieRate"
                     android:layout_marginBottom="12dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="24dp"
@@ -102,7 +102,7 @@
                     android:textSize="20sp"
                     android:typeface="serif"
                     tools:ignore="RtlHardcoded"
-                    android:layout_toEndOf="@+id/imageView" />
+                    android:layout_toEndOf="@+id/moviePoster" />
 
                 <TextView
                     android:id="@+id/dscTxt"
@@ -116,18 +116,18 @@
                     android:textStyle="bold"
                     android:typeface="serif"
                     tools:ignore="HardcodedText,SpUsage"
-                    android:layout_below="@+id/textView_ReleaseDate"
-                    android:layout_toEndOf="@+id/imageView" />
+                    android:layout_below="@+id/txtReleaseDate"
+                    android:layout_toEndOf="@+id/moviePoster" />
 
 
                 <TextView
-                    android:id="@+id/textView_description"
+                    android:id="@+id/txtDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/dscTxt"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="9dp"
-                    android:layout_toEndOf="@+id/imageView"
+                    android:layout_toEndOf="@+id/moviePoster"
                     android:fontFamily="casual"
                     android:textAlignment="center"
                     android:textColor="#000"
@@ -154,7 +154,7 @@
                 tools:ignore="HardcodedText,SpUsage" />
 
             <ListView
-                android:id="@+id/listYT"
+                android:id="@+id/youtubeListView"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_below="@id/yt"
@@ -164,7 +164,7 @@
                 android:id="@+id/rev"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/listYT"
+                android:layout_below="@id/youtubeListView"
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="casual"
@@ -177,7 +177,7 @@
                 tools:ignore="HardcodedText,SpUsage" />
 
             <ListView
-                android:id="@+id/listreview"
+                android:id="@+id/reviewListView"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_below="@id/rev"

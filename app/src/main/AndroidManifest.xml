@@ -20,11 +20,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.Detail_view"
+            android:name=".Activities.DetailActivity"
             android:parentActivityName=".Activities.MainActivity"
             android:theme="@style/noActionBarTheme" />
         <activity
-            android:name=".Activities.showFavourite"
+            android:name=".Activities.FavouriteActivity"
             android:parentActivityName=".Activities.MainActivity" />
     </application>
 

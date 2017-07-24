@@ -6,20 +6,20 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.owner.movieapp.Data.Movie;
-import com.example.owner.movieapp.Fragments.Detail_view_Fragment;
+import com.example.owner.movieapp.Fragments.DetailFragment;
 import com.example.owner.movieapp.R;
 
 
-public class Detail_view extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.details);
+        setContentView(R.layout.activity_details);
 
         Movie Data = (Movie) getIntent().getSerializableExtra("data");
 
 
-        Detail_view_Fragment dFr = new Detail_view_Fragment();
+        DetailFragment dFr = new DetailFragment();
 
         Bundle extras = new Bundle();
         extras.putSerializable("data", Data);
